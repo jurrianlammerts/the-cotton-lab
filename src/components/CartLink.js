@@ -17,12 +17,12 @@ class CartLink extends React.Component {
           <div className="flex flex-1 justify-end pr-4 relative">
             <Link to="/cart">
               <FaShoppingCart size="24" />
+              {numberOfItemsInCart > Number(0) && (
+                <div className="card-bubble">
+                  <Circle text={numberOfItemsInCart} />
+                </div>
+              )}
             </Link>
-            {numberOfItemsInCart > Number(0) && (
-              <div className="card-bubble">
-                <Circle text={numberOfItemsInCart} />
-              </div>
-            )}
           </div>
         </div>
       </div>

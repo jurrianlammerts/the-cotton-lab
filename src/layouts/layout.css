@@ -623,3 +623,9 @@ pre tt:after {
     font-size: 100%;
   }
 }
+.item-card {
+  transition: all 0.2s ease-in-out;
+}
+.item-card:hover {
+  transform: scale(1.1);
+}

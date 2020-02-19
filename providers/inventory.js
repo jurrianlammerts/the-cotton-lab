@@ -71,36 +71,6 @@ let inventory = [
     brand: "Nike",
     currentInventory: 43,
   },
-  {
-    categories: ["new arrivals", "sneakers"],
-    name: "Nike Air Max 200",
-    price: "900",
-    image: "../images/products/sneaker11.jpg",
-    description:
-      "Stay a while. This classic Air Max is every kids dream. Now limited in stock!",
-    brand: "Nike",
-    currentInventory: 2,
-  },
-  {
-    categories: ["on sale"],
-    name: "Nike Air Max anniversary red",
-    price: "300",
-    image: "../images/products/sneaker13.jpg",
-    description:
-      "Stay a while. This classic Air Max is every kids dream. Now limited in stock!",
-    brand: "Nike",
-    currentInventory: 12,
-  },
-  {
-    categories: ["on sale"],
-    name: "Nike signal 750",
-    price: "825",
-    image: "../images/products/sneaker14.jpg",
-    description:
-      "Stay a while. This classic Air Max is every kids dream. Now limited in stock!",
-    brand: "Nike",
-    currentInventory: 13,
-  },
 ]
 
 inventory.map(i => {

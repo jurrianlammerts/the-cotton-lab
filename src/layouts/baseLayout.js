@@ -55,7 +55,7 @@ class Layout extends React.Component {
                       className="
                     w-fw
                     mobile:px-10 desktop:px-0 px-4 pt-10 pb-6
-                    flex 
+                    flex  
                     sm:flex-row"
                     >
                       <Link to="/">

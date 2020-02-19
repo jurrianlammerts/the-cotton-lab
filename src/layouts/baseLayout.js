@@ -65,7 +65,7 @@ class Layout extends React.Component {
                           src={logo}
                         />
                       </Link>
-                      <div className="flex flex-wrap mt-1 h-24">
+                      <div className="flex flex-wrap mt-2 h-24">
                         {links.map((l, i) => (
                           <Link
                             to={l.link}
@@ -75,7 +75,7 @@ class Layout extends React.Component {
                           >
                             <p
                               key={i}
-                              className="text-left m-0 text-smaller px-4 sm:px-4 font-semibold"
+                              className="text-left m-0 text-smaller pr-4 font-semibold"
                             >
                               {l.name}
                             </p>

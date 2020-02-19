@@ -43,7 +43,6 @@ class Layout extends React.Component {
               return newLink
             })
 
-            links.unshift({ name: "Home", link: "/" })
             return (
               <div className="min-h-screen">
                 <nav>
@@ -52,12 +51,12 @@ class Layout extends React.Component {
                       className="
                     w-fw
                     mobile:px-10 desktop:px-0 px-4 pt-10 pb-6
-                    flex flex-col
+                    flex 
                     sm:flex-row"
                     >
                       <Link to="/">
                         <img
-                          className="mb-4 w-8 mw-24 sm:w-8 sm:mr-16"
+                          className="mb-4 w-8 mw-24 sm:w-8 sm:mr-16 mr-8"
                           alt="Logo"
                           src={logo}
                         />
@@ -87,7 +86,7 @@ class Layout extends React.Component {
                     </span>
                     <div className="flex flex-1 justify-end">
                       <Link to="/admin">
-                        <p className="pt-4 text-xs">Admins</p>
+                        <p className="pt-4 text-xs">Admin</p>
                       </Link>
                     </div>
                   </div>

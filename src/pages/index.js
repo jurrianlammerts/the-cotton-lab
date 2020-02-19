@@ -68,8 +68,7 @@ const Home = ({ data: gqlData }) => {
       <div className="pt-10 pb-6 flex flex-col items-center">
         <h2 className="text-4xl mb-3">Trending Now</h2>
         <p className="text-gray-600 text-sm">
-          Find the perfect piece or accessory to finish off your favorite room
-          in the house.
+          Find the perfect piece or accessory to finish off your collection.
         </p>
       </div>
       <div className="my-8 flex flex-col lg:flex-row justify-between">

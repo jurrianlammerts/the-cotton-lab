@@ -4,7 +4,6 @@ const Circle = ({ text }) => {
   if (text <= 9) {
     return (
       <svg width="20px" height="20px" viewBox="0 0 20 20">
-        {console.log(text)}
         <g
           id="Symbols"
           stroke="none"

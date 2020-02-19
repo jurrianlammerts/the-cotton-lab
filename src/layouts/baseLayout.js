@@ -26,7 +26,6 @@ class Layout extends React.Component {
       <ContextProviderComponent>
         <SiteContext.Consumer>
           {context => {
-            console.log("baselayout rerendering...")
             let {
               navItems: {
                 navInfo: { data: links },

@@ -2,6 +2,7 @@ import React from "react"
 import { SiteContext } from "../context/mainContext"
 import { FaShoppingCart, FaCircle } from "react-icons/fa"
 import { Link } from "gatsby"
+import Circle from "./icons/CircleIcon"
 import { colors } from "../theme"
 const { secondary } = colors
 
@@ -15,11 +16,11 @@ class CartLink extends React.Component {
         <div className="fixed top-50 right-20 desktop:right-flexiblemargin z-10">
           <div className="flex flex-1 justify-end pr-4 relative">
             <Link to="/cart">
-              <FaShoppingCart />
+              <FaShoppingCart size="24" />
             </Link>
             {numberOfItemsInCart > Number(0) && (
-              <div>
-                <FaCircle color={secondary} size={12} />
+              <div className="card-bubble">
+                <Circle text={numberOfItemsInCart} />
               </div>
             )}
           </div>

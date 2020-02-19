@@ -9,15 +9,8 @@ import React from "react"
 import { Link } from "gatsby"
 import { SiteContext, ContextProviderComponent } from "../context/mainContext"
 import { titleIfy, slugify } from "../../utils/helpers"
-import "react-toastify/dist/ReactToastify.css"
-import { toast } from "react-toastify"
 import { colors } from "../theme"
 
-toast.configure({
-  progressStyle: {
-    background: colors.primary,
-  },
-})
 
 const logo = require("../images/logo.svg")
 

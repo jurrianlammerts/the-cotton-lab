@@ -1,13 +1,3 @@
-
-// import theme from './src/theme'
-
-
-
-// const { colors } = theme
-// console.log('colors: ', colors)
-
-// const { primary, secondary } = colors
-
 module.exports = {
   theme: {
     extend: {

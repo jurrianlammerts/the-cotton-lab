@@ -21,6 +21,10 @@ toast.configure({
 
 const logo = require("../images/logo.svg")
 
+const activeStyle = {
+  color: "#00baa6",
+}
+
 class Layout extends React.Component {
   render() {
     const { children } = this.props
@@ -56,17 +60,22 @@ class Layout extends React.Component {
                     >
                       <Link to="/">
                         <img
-                          className="mb-4 w-8 mw-24 sm:w-8 sm:mr-16 mr-8"
+                          className="w-10 mr-4"
                           alt="Logo"
                           src={logo}
                         />
                       </Link>
-                      <div className="flex flex-wrap mt-1">
+                      <div className="flex flex-wrap mt-1 h-24">
                         {links.map((l, i) => (
-                          <Link to={l.link} key={i}>
+                          <Link
+                            to={l.link}
+                            key={i}
+                            style={{ height: "24px", margin: "0 4px" }}
+                            activeStyle={activeStyle}
+                          >
                             <p
                               key={i}
-                              className="text-left m-0 text-smaller mr-4 sm:mr-8 font-semibold"
+                              className="text-left m-0 text-smaller px-4 sm:px-4 font-semibold"
                             >
                               {l.name}
                             </p>

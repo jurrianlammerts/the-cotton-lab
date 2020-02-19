@@ -25,7 +25,12 @@ class Nav extends React.Component {
       <>
         <div className="flex">
           {links.map((l, i) => (
-            <Link to={l.link} key={i}>
+            <Link
+              to={l.link}
+              key={i}
+              style={style}
+              activeStyle={{ color: "red" }}
+            >
               <p
                 key={i}
                 className="text-left m-0 text-smaller mr-4 sm:mr-8 font-semibold"

@@ -12,7 +12,7 @@ let inventory = [
     currentInventory: 4,
   },
   {
-    categories: ["sneakers"],
+    categories: ["on sale", "sneakers"],
     name: "Nike Air Max 1 suede",
     price: "1000",
     image: "../images/products/sneaker2.jpg",
@@ -62,7 +62,7 @@ let inventory = [
     currentInventory: 7,
   },
   {
-    categories: ["sneakers"],
+    categories: ["on sale", "sneakers"],
     name: "Nike air force 1",
     price: "800",
     image: "../images/products/sneaker10.jpg",

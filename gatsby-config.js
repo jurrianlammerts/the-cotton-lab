@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: `STRIJK`,
     description: `Time to Strijk`,
-    author: "J.L.",
+    author: "Jurr",
   },
   plugins: [
     {
@@ -33,6 +33,17 @@ module.exports = {
     `gatsby-plugin-offline`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [
+          {
+            resolve: `gatsby-remark-images`,
+          },
+          `gatsby-remark-lazy-load`,
+        ],
+      },
+    },
     {
       resolve: `gatsby-plugin-manifest`,
       options: {

@@ -7,3 +7,4 @@
 // You can delete this file if you're not using it
 import "./src/styles/site.css"
 import "./src/layouts/layout.css"
+import "lazysizes"

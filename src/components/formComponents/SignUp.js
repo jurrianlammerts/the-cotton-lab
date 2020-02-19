@@ -48,7 +48,7 @@ class SignUp extends React.Component {
               </div>
             </form>
             <p className="text-center text-gray-500 text-xs">
-              &copy;. All rights reserved.
+              &copy; All rights reserved.
             </p>
           </div>
         </div>

@@ -27,9 +27,6 @@ const Cart = ({ context }) => {
 
   const uniqueCart = removeDuplicates(countedCart)
 
-  console.log("countedCart: ", countedCart)
-  console.log("uniqueCart: ", uniqueCart)
-
   return (
     <>
       <CartLink />

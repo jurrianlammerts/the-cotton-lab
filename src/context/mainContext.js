@@ -28,15 +28,6 @@ function calculateTotal(cart) {
   return total
 }
 
-function compressArray(array) {
-  const count = {}
-  array.forEach(item => {
-    count[item.id] = (count[item.id] || 0) + 1
-  })
-
-  return count
-}
-
 class ContextProviderComponent extends React.Component {
   componentDidMount() {
     if (typeof window !== "undefined") {
@@ -46,14 +37,17 @@ class ContextProviderComponent extends React.Component {
       }
     }
   }
+
   addToCart = item => {
     const storageState = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
-    let { cart, count } = storageState
-
+    let { cart } = storageState
+    const count = {}
     cart.push(item)
-    count = compressArray(cart)
 
-    console.log("count here 1: ", count)
+    cart.forEach(item => {
+      count[item.id] = (count[item.id] || 0) + 1
+      console.log("count after: ", count)
+    })
 
     window.localStorage.setItem(
       STORAGE_KEY,
@@ -70,11 +64,14 @@ class ContextProviderComponent extends React.Component {
   removeFromCart = item => {
     const storageState = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
     let { cart, count } = storageState
-    cart = cart.filter(c => c.id !== item.id)
 
-    count = compressArray(cart)
-
-    console.log("count here 2: ", count)
+    if (count[item.id] > 1) {
+      count[item.id] = count[item.id] - 1
+      console.log("count after: ", count)
+    } else {
+      console.log("Delete item")
+      cart = cart.filter(c => c.id !== item.id)
+    }
 
     window.localStorage.setItem(
       STORAGE_KEY,

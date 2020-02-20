@@ -9,10 +9,11 @@ const mainQuery = graphql`
   }
 `
 
-const STORAGE_KEY = "GATSBY_ECOMMERCE_STARTER_"
+const STORAGE_KEY = "STRIJK"
 
 const initialState = {
   cart: [],
+  count: {},
   numberOfItemsInCart: 0,
   total: 0,
 }
@@ -27,6 +28,15 @@ function calculateTotal(cart) {
   return total
 }
 
+function compressArray(array) {
+  const count = {}
+  array.forEach(item => {
+    count[item.id] = (count[item.id] || 0) + 1
+  })
+
+  return count
+}
+
 class ContextProviderComponent extends React.Component {
   componentDidMount() {
     if (typeof window !== "undefined") {
@@ -38,12 +48,18 @@ class ContextProviderComponent extends React.Component {
   }
   addToCart = item => {
     const storageState = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
-    const { cart } = storageState
+    let { cart, count } = storageState
+
     cart.push(item)
+    count = compressArray(cart)
+
+    console.log("count here 1: ", count)
+
     window.localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({
         cart,
+        count,
         numberOfItemsInCart: cart.length,
         total: calculateTotal(cart),
       })
@@ -53,13 +69,18 @@ class ContextProviderComponent extends React.Component {
 
   removeFromCart = item => {
     const storageState = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
-    let { cart } = storageState
+    let { cart, count } = storageState
     cart = cart.filter(c => c.id !== item.id)
+
+    count = compressArray(cart)
+
+    console.log("count here 2: ", count)
 
     window.localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({
         cart,
+        count,
         numberOfItemsInCart: cart.length,
         total: calculateTotal(cart),
       })

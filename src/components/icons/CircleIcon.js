@@ -35,9 +35,9 @@ const Circle = ({ text }) => {
         <g
           id="Symbols"
           stroke="none"
-          stroke-width="1"
+          strokeWidth="1"
           fill="none"
-          fill-rule="evenodd"
+          fillRule="evenodd"
         >
           <g id="Artboard" transform="translate(-153.000000, -175.000000)">
             <g id="Group" transform="translate(153.000000, 175.000000)">

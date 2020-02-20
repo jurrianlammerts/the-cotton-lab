@@ -9,11 +9,8 @@ import CartLink from "../components/CartLink"
 import { slugify } from "../../utils/helpers"
 import Image from "../components/Image"
 
-function removeDuplicates(myArr, prop) {
-  return myArr.filter((obj, pos, arr) => {
-    // console.log("arr: ", arr, "pos: ", pos, "obj: ", obj)
-    return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos
-  })
+function removeDuplicates(myArr) {
+  return Array.from(new Set(myArr.map(JSON.stringify))).map(JSON.parse)
 }
 
 const Cart = ({ context }) => {
@@ -28,7 +25,7 @@ const Cart = ({ context }) => {
     })
   })
 
-  const uniqueCart = removeDuplicates(countedCart, "item.id")
+  const uniqueCart = removeDuplicates(countedCart)
 
   console.log("countedCart: ", countedCart)
   console.log("uniqueCart: ", uniqueCart)

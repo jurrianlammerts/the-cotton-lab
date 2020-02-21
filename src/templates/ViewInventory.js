@@ -1,9 +1,13 @@
 import React from "react"
+import { Link } from "gatsby"
+import { API, graphqlOperation } from "aws-amplify"
+import { FaTimes } from "react-icons/fa"
+import { updateProduct, deleteProduct } from "../graphql/mutations"
+import { listProducts } from "../graphql/queries"
+
 import getInventory, { DENOMINATION } from "../../providers/inventoryProvider"
 import Image from "../components/Image"
-import { Link } from "gatsby"
 import { slugify } from "../../utils/helpers"
-import { FaTimes } from "react-icons/fa"
 
 class ViewInventory extends React.Component {
   state = {
@@ -14,27 +18,38 @@ class ViewInventory extends React.Component {
   componentDidMount() {
     this.fetchInventory()
   }
+
   fetchInventory = async () => {
-    const inventory = await getInventory()
-    this.setState({ inventory })
+    const inventoryData = await API.graphql(graphqlOperation(listProducts))
+    const { items } = inventoryData.data.listProducts
+    console.log("inventory items: ", items)
+    this.setState({ inventory: items })
   }
+
   editItem = (item, index) => {
     const editingIndex = index
     this.setState({ editingIndex, currentItem: item })
   }
+
   saveItem = async index => {
     const inventory = [...this.state.inventory]
     inventory[index] = this.state.currentItem
-    // update item in database
+    await API.graphql(
+      graphqlOperation(updateProduct, { input: this.state.currentItem })
+    )
     this.setState({ editingIndex: null, inventory })
   }
+
   deleteItem = async index => {
+    const id = this.state.inventory[index].id
     const inventory = [
       ...this.state.inventory.slice(0, index),
       ...this.state.inventory.slice(index + 1),
     ]
     this.setState({ inventory })
+    await API.graphql(graphqlOperation(deleteProduct, { input: { id } }))
   }
+
   onChange = event => {
     const currentItem = {
       ...this.state.currentItem,
@@ -43,6 +58,7 @@ class ViewInventory extends React.Component {
 
     this.setState({ currentItem })
   }
+
   render() {
     const { inventory, currentItem, editingIndex } = this.state
     return (

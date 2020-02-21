@@ -4,7 +4,14 @@
  * See: https://www.gatsbyjs.org/docs/browser-apis/
  */
 
-// You can delete this file if you're not using it
+// AWS
+import Amplify from "aws-amplify"
+import config from "./src/aws-exports"
+
+// Styles
 import "./src/styles/site.css"
 import "./src/layouts/layout.css"
 import "lazysizes"
+
+
+Amplify.configure(config)

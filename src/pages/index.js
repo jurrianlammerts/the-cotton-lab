@@ -21,6 +21,8 @@ const Home = ({ data: gqlData }) => {
   const categories = data.slice(0, 2)
   const inventory = inventoryInfo.data.slice(0, 4)
 
+  console.log(inventory[2])
+
   return (
     <>
       <CartLink />
@@ -39,7 +41,7 @@ const Home = ({ data: gqlData }) => {
               title={inventory[2].name}
               link={slugify(inventory[2].name)}
             />
-            <Footer designer="Wilson Smith" />
+            <Footer designer="Nike" />
           </div>
           <div className="flex flex-1 justify-center items-center relative">
             <Showcase imageSrc={inventory[2].image} />

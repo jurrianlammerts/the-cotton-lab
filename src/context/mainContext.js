@@ -13,7 +13,6 @@ const STORAGE_KEY = "STRIJK"
 
 const initialState = {
   cart: [],
-  count: {},
   numberOfItemsInCart: 0,
   total: 0,
 }
@@ -41,19 +40,15 @@ class ContextProviderComponent extends React.Component {
   addToCart = item => {
     const storageState = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
     let { cart } = storageState
-    const count = {}
+
     cart.push(item)
 
-    cart.forEach(item => {
-      count[item.id] = (count[item.id] || 0) + 1
-      console.log("count after: ", count)
-    })
+    // console.log("Cart after add: ", cart)
 
     window.localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({
         cart,
-        count,
         numberOfItemsInCart: cart.length,
         total: calculateTotal(cart),
       })
@@ -63,21 +58,24 @@ class ContextProviderComponent extends React.Component {
 
   removeFromCart = item => {
     const storageState = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
-    let { cart, count } = storageState
+    let { cart } = storageState
+    // console.log("Cart before remove: ", cart)
 
-    if (count[item.id] > 1) {
-      count[item.id] = count[item.id] - 1
-      console.log("count after: ", count)
-    } else {
-      console.log("Delete item")
-      cart = cart.filter(c => c.id !== item.id)
+    const index = cart.map(e => e.id).indexOf(item.id)
+
+    // console.log("arrayIndex: ", index)
+
+    if (index > -1) {
+      const item = cart.splice(index, 1)
+      console.log("which item: ", item)
     }
+
+    // console.log("Cart after remove: ", cart)
 
     window.localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({
         cart,
-        count,
         numberOfItemsInCart: cart.length,
         total: calculateTotal(cart),
       })
@@ -98,6 +96,8 @@ class ContextProviderComponent extends React.Component {
         state = JSON.parse(storageState)
       }
     }
+
+    console.log(state.cart)
 
     return (
       <StaticQuery query={mainQuery}>

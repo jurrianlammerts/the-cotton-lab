@@ -14,18 +14,25 @@ function removeDuplicates(myArr) {
 }
 
 const Cart = ({ context }) => {
-  const { numberOfItemsInCart, cart, removeFromCart, total, count } = context
+  const { numberOfItemsInCart, cart, removeFromCart, total } = context
   const cartEmpty = numberOfItemsInCart === Number(0)
-  const countedCart = []
+  const counter = {}
 
-  cart.forEach(item => {
-    countedCart.push({
-      quantity: count[item.id],
-      item,
+  // Counts all the products
+  !cartEmpty &&
+    cart.forEach(obj => {
+      counter[obj.id] = (counter[obj.id] || 0) + 1
     })
-  })
 
-  const uniqueCart = removeDuplicates(countedCart)
+  // Removes all duplicates from cart
+  const uniqueCart = removeDuplicates(cart)
+
+  // Adds the quantity to the product
+  uniqueCart.forEach(obj => {
+    for (let [key, value] of Object.entries(counter)) {
+      if (key === obj.id) obj.quantity = value
+    }
+  })
 
   return (
     <>
@@ -46,10 +53,10 @@ const Cart = ({ context }) => {
             <h3>No items in cart.</h3>
           ) : (
             <div className="flex flex-col">
-              <div className="">
-                {uniqueCart.map(({ item, quantity }) => {
+              <div>
+                {uniqueCart.map((item, index) => {
                   return (
-                    <div className="border-b py-10" key={item.id}>
+                    <div className="border-b py-10" key={`${item.id + index}`}>
                       <div className="flex items-center">
                         <Link to={slugify(item.name)}>
                           <Image
@@ -65,7 +72,8 @@ const Cart = ({ context }) => {
                         </Link>
                         <div className="flex flex-1 justify-end">
                           <p className="m-0 pl-10 text-gray-900 tracking-tighter font-semibold">
-                            {`${quantity} x ${DENOMINATION + item.price}`}
+                            {`${item.quantity}  x  ${DENOMINATION +
+                              item.price}`}
                           </p>
                         </div>
                         <div

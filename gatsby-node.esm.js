@@ -16,6 +16,7 @@ const CategoryView = require.resolve("./src/templates/CategoryView")
 
 Amplify.configure(config)
 
+
 async function fetchInventory() {
   const listProductsQuery = tag(`
     query listProducts {

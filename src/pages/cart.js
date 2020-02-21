@@ -4,6 +4,7 @@ import { SiteContext, ContextProviderComponent } from "../context/mainContext"
 import { DENOMINATION } from "../../providers/inventoryProvider"
 import { FaTimes, FaLongArrowAltRight } from "react-icons/fa"
 import { Link } from "gatsby"
+import { useTransition, animated } from "react-spring"
 import SEO from "../components/seo"
 import CartLink from "../components/CartLink"
 import { slugify } from "../../utils/helpers"
@@ -34,6 +35,19 @@ const Cart = ({ context }) => {
     }
   })
 
+  const height = 144
+
+  const transitions = useTransition(
+    uniqueCart.map((data, i) => ({ ...data, y: i * height })),
+    d => d.name,
+    {
+      from: { opacity: 0 },
+      leave: { height: 0, opacity: 0 },
+      enter: ({ y }) => ({ y, opacity: 1 }),
+      update: ({ y }) => ({ y }),
+    }
+  )
+
   return (
     <>
       <CartLink />
@@ -53,41 +67,38 @@ const Cart = ({ context }) => {
             <h3>No items in cart.</h3>
           ) : (
             <div className="flex flex-col">
-              <div>
-                {uniqueCart.map((item, index) => {
-                  return (
-                    <div className="border-b py-10" key={`${item.id + index}`}>
-                      <div className="flex items-center">
-                        <Link to={slugify(item.name)}>
-                          <Image
-                            className="w-32 m-0"
-                            src={item.image}
-                            alt={item.name}
-                          />
-                        </Link>
-                        <Link to={slugify(item.name)}>
-                          <p className="m-0 pl-10 text-gray-600 text-sm">
-                            {item.name}
-                          </p>
-                        </Link>
-                        <div className="flex flex-1 justify-end">
-                          <p className="m-0 pl-10 text-gray-900 tracking-tighter font-semibold">
-                            {`${item.quantity}  x  ${DENOMINATION +
-                              item.price}`}
-                          </p>
-                        </div>
-                        <div
-                          role="button"
-                          onClick={() => removeFromCart(item)}
-                          className="m-0 ml-10 text-gray-900 text-s cursor-pointer"
-                        >
-                          <FaTimes />
-                        </div>
+              {uniqueCart.map((item, index) => {
+                return (
+                  <div className="border-b py-10" key={`${item.id + index}`}>
+                    <div className="flex items-center">
+                      <Link to={slugify(item.name)}>
+                        <Image
+                          className="w-32 m-0"
+                          src={item.image}
+                          alt={item.name}
+                        />
+                      </Link>
+                      <Link to={slugify(item.name)}>
+                        <p className="m-0 pl-10 text-gray-600 text-sm">
+                          {item.name}
+                        </p>
+                      </Link>
+                      <div className="flex flex-1 justify-end">
+                        <p className="m-0 pl-10 text-gray-900 tracking-tighter font-semibold">
+                          {`${item.quantity}  x  ${DENOMINATION + item.price}`}
+                        </p>
+                      </div>
+                      <div
+                        role="button"
+                        onClick={() => removeFromCart(item)}
+                        className="m-0 ml-10 text-gray-900 text-s cursor-pointer"
+                      >
+                        <FaTimes />
                       </div>
                     </div>
-                  )
-                })}
-              </div>
+                  </div>
+                )
+              })}
             </div>
           )}
           <div className="flex flex-1 justify-end py-8">

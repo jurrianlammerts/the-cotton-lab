@@ -4,7 +4,6 @@ import { SiteContext, ContextProviderComponent } from "../context/mainContext"
 import { DENOMINATION } from "../../providers/inventoryProvider"
 import { FaTimes, FaLongArrowAltRight } from "react-icons/fa"
 import { Link } from "gatsby"
-import { useTransition, animated } from "react-spring"
 import SEO from "../components/seo"
 import CartLink from "../components/CartLink"
 import { slugify } from "../../utils/helpers"
@@ -34,19 +33,6 @@ const Cart = ({ context }) => {
       if (key === obj.id) obj.quantity = value
     }
   })
-
-  const height = 144
-
-  const transitions = useTransition(
-    uniqueCart.map((data, i) => ({ ...data, y: i * height })),
-    d => d.name,
-    {
-      from: { opacity: 0 },
-      leave: { height: 0, opacity: 0 },
-      enter: ({ y }) => ({ y, opacity: 1 }),
-      update: ({ y }) => ({ y }),
-    }
-  )
 
   return (
     <>

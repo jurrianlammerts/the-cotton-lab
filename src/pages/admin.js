@@ -111,10 +111,9 @@ class Admin extends React.Component {
           </div>
           {renderForm(formState)}
         </div>
-        {renderForm(formState)}
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default Admin

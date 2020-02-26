@@ -43,6 +43,8 @@ class ContextProviderComponent extends React.Component {
 
     cart.push(item)
 
+    // console.log("Cart after add: ", cart)
+
     window.localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({
@@ -57,12 +59,18 @@ class ContextProviderComponent extends React.Component {
   removeFromCart = item => {
     const storageState = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
     let { cart } = storageState
+    // console.log("Cart before remove: ", cart)
 
     const index = cart.map(e => e.id).indexOf(item.id)
 
+    // console.log("arrayIndex: ", index)
+
     if (index > -1) {
       const item = cart.splice(index, 1)
+      console.log("which item: ", item)
     }
+
+    // console.log("Cart after remove: ", cart)
 
     window.localStorage.setItem(
       STORAGE_KEY,
@@ -88,6 +96,8 @@ class ContextProviderComponent extends React.Component {
         state = JSON.parse(storageState)
       }
     }
+
+    console.log(state.cart)
 
     return (
       <StaticQuery query={mainQuery}>

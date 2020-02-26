@@ -11,6 +11,7 @@ import { SiteContext, ContextProviderComponent } from "../context/mainContext"
 import { titleIfy, slugify } from "../../utils/helpers"
 import { colors } from "../theme"
 
+
 const logo = require("../images/logo.svg")
 
 const activeStyle = {
@@ -19,8 +20,6 @@ const activeStyle = {
 
 class Layout extends React.Component {
   render() {
-    const url = "https://strijk.netlify.com/" // supply the url of your Netlify site instance with Identity enabled.
-
     const { children } = this.props
 
     return (

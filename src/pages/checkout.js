@@ -4,6 +4,7 @@ import { SiteContext, ContextProviderComponent } from "../context/mainContext"
 import { DENOMINATION } from "../../providers/inventoryProvider"
 import { FaLongArrowAltLeft } from "react-icons/fa"
 import { Link } from "gatsby"
+import { removeDuplicates } from "../../utils/helpers"
 import Image from "../components/Image"
 import uuid from "uuid/v4"
 
@@ -65,7 +66,10 @@ const Checkout = ({ context }) => {
 
   const onChange = e => {
     setErrorMessage(null)
-    setInput({ ...input, [e.target.name]: e.target.value })
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    })
   }
 
   const handleSubmit = async event => {
@@ -110,7 +114,7 @@ const Checkout = ({ context }) => {
       receipt_email: "customer@example.com",
       id: uuid(),
     }
-    // console.log("order: ", order)
+
     // TODO call API
     setOrderCompleted(true)
     clearCart()
@@ -126,6 +130,24 @@ const Checkout = ({ context }) => {
       </div>
     )
   }
+
+  const counter = {}
+
+  // Counts all the products
+  !cartEmpty &&
+    cart.forEach(obj => {
+      counter[obj.id] = (counter[obj.id] || 0) + 1
+    })
+
+  // Removes all duplicates from cart
+  const uniqueCart = removeDuplicates(cart)
+
+  // Adds the quantity to the product
+  uniqueCart.forEach(obj => {
+    for (let [key, value] of Object.entries(counter)) {
+      if (key === obj.id) obj.quantity = value
+    }
+  })
 
   return (
     <div className="flex flex-col items-center pb-10">
@@ -150,13 +172,13 @@ const Checkout = ({ context }) => {
         ) : (
           <div className="flex flex-col">
             <div className="">
-              {cart.map((item, index) => {
+              {uniqueCart.map((item, index) => {
                 return (
-                  <div className="border-b py-10" key={index}>
+                  <div className="border-b py-10" key={`${item.id + index}`}>
                     <div className="flex items-center">
                       <Image
                         className="w-32 m-0"
-                        src={item.image}
+                        src={item.image[0].url}
                         alt={item.name}
                       />
                       <p className="m-0 pl-10 text-gray-600 text-sm">
@@ -164,7 +186,7 @@ const Checkout = ({ context }) => {
                       </p>
                       <div className="flex flex-1 justify-end">
                         <p className="m-0 pl-10 text-gray-900 tracking-tighter font-semibold">
-                          {DENOMINATION + item.price}
+                          {`${item.quantity}  x  ${DENOMINATION + item.price}`}
                         </p>
                       </div>
                     </div>

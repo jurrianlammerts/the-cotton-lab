@@ -11,7 +11,7 @@ const DisplaySmall = ({ link, title, subtitle, imageSrc }) => (
   >
     <Link to={`/${link}`}>
       <div className="item-card flex flex-column justify-center items-center h-32">
-        <Image alt={title} src={imageSrc} className="w-3/5" />
+        <Image alt={title} src={imageSrc[0].url} className="w-3/5" />
       </div>
       <div className="">
         <p className="text-xl font-semibold mb-1">{title}</p>

@@ -21,6 +21,8 @@ const Home = ({ data: gqlData }) => {
   const categories = data.slice(0, 2)
   const inventory = inventoryInfo.data.slice(0, 4)
 
+  console.log(inventory)
+
   return (
     <>
       <CartLink />
@@ -52,6 +54,7 @@ const Home = ({ data: gqlData }) => {
         </div>
       </div>
       <div className="my-4 lg:my-8 flex flex-col lg:flex-row justify-between">
+        {console.log(categories[0])}
         <DisplayMedium
           imageSrc={categories[0].image}
           subtitle={`${categories[0].itemCount} items`}
@@ -75,28 +78,28 @@ const Home = ({ data: gqlData }) => {
         <DisplaySmall
           imageSrc={inventory[0].image}
           title={inventory[0].name}
-          subtitle={inventory[0].categories[0]}
+          subtitle={inventory[0].categories[0].name}
           link={slugify(inventory[0].name)}
         />
 
         <DisplaySmall
           imageSrc={inventory[1].image}
           title={inventory[1].name}
-          subtitle={inventory[1].categories[0]}
+          subtitle={inventory[1].categories[0].name}
           link={slugify(inventory[1].name)}
         />
 
         <DisplaySmall
           imageSrc={inventory[2].image}
           title={inventory[2].name}
-          subtitle={inventory[2].categories[0]}
+          subtitle={inventory[2].categories[0].name}
           link={slugify(inventory[2].name)}
         />
 
         <DisplaySmall
           imageSrc={inventory[3].image}
           title={inventory[3].name}
-          subtitle={inventory[3].categories[0]}
+          subtitle={inventory[3].categories[0].name}
           link={slugify(inventory[3].name)}
         />
       </div>
@@ -112,15 +115,21 @@ export const pageQuery = graphql`
     categoryInfo {
       data {
         name
-        image
+        image {
+          url
+        }
         itemCount
       }
     }
     inventoryInfo {
       data {
-        image
+        image {
+          url
+        }
         name
-        categories
+        categories {
+          name
+        }
         description
         id
       }

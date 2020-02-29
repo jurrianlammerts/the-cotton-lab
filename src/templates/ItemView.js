@@ -13,6 +13,8 @@ const ItemView = props => {
     context: { addToCart },
   } = props
 
+  // TODO: Check if one or more images
+
   function addItemToCart(item) {
     addToCart(item)
   }
@@ -30,7 +32,7 @@ const ItemView = props => {
         <div className="w-full md:w-1/2 h-112 flex flex-1 bg-light hover:bg-light-200">
           <div className="py-16 p10 flex flex-1 justify-center items-center">
             <Image
-              src={image}
+              src={image[0].url}
               className="max-w-lg m-0 max-h-96 w-64"
               alt="Inventory item"
             />

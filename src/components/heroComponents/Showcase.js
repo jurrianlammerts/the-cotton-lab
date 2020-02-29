@@ -1,10 +1,14 @@
-import React from 'react'
-import Image from '../Image'
+import React from "react"
+import Image from "../Image"
 
 const Showcase = ({ imageSrc }) => {
   return (
     <div className="z-10">
-      <Image src={imageSrc} className="w-136 mb-12" alt="Showcase item" />
+      <Image
+        src={imageSrc[0].url}
+        className="w-136 mb-12"
+        alt="Showcase item"
+      />
     </div>
   )
 }

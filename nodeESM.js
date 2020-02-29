@@ -1,52 +1,12 @@
-require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV}`,
-})
-
-const axios = require("axios")
+import getInventory from "./providers/inventoryProvider.js"
 import { slugify } from "./utils/helpers"
 
 const ItemView = require.resolve("./src/templates/ItemView")
 const CategoryView = require.resolve("./src/templates/CategoryView")
 
-async function getProducts() {
-  try {
-    const response = await axios.get(`${process.env.GATSBY_API_URL}/products`)
-    return response
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
-
-  const data = await graphql(
-    `
-      {
-        products: allStrapiProduct {
-          nodes {
-            id
-            name
-            description
-            price
-            inventory
-            image {
-              url
-            }
-            categories {
-              name
-            }
-          }
-        }
-      }
-    `
-  )
-
-  const {
-    data: {
-      products: { nodes: inventory },
-    },
-  } = data
+  const inventory = await getInventory()
 
   createPage({
     path: "all",
@@ -59,7 +19,7 @@ exports.createPages = async ({ graphql, actions }) => {
   })
 
   const inventoryByCategory = inventory.reduce((acc, next) => {
-    const categories = next.categories.map(item => item.name)
+    const categories = next.categories
     categories.forEach(c => {
       if (acc[c]) {
         acc[c].items.push(next)
@@ -115,16 +75,12 @@ exports.sourceNodes = async ({
   createContentDigest,
 }) => {
   const { createNode } = actions
+  const inventory = await getInventory()
 
-  const products = await getProducts()
-
-  const { data: inventory } = products
-
-  // /* create nav info for categories */
+  /* create nav info for categories */
 
   const categoryNames = inventory.reduce((acc, next) => {
-    const categories = next.categories.map(item => item.name)
-    categories.forEach(c => {
+    next.categories.forEach(c => {
       if (!acc.includes(c)) acc.push(c)
     })
     return acc
@@ -153,7 +109,7 @@ exports.sourceNodes = async ({
 
   /* create category info for home page */
   const inventoryByCategory = inventory.reduce((acc, next) => {
-    const categories = next.categories.map(item => item.name)
+    const categories = next.categories
 
     categories.forEach(c => {
       const index = acc.findIndex(item => item.name === c)
@@ -164,7 +120,7 @@ exports.sourceNodes = async ({
       } else {
         const item = {
           name: c,
-          image: Object.values(next.image)[0],
+          image: next.image,
           itemCount: 1,
         }
         acc.push(item)

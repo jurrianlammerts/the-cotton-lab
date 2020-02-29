@@ -6,12 +6,8 @@ import { FaTimes, FaLongArrowAltRight } from "react-icons/fa"
 import { Link } from "gatsby"
 import SEO from "../components/seo"
 import CartLink from "../components/CartLink"
-import { slugify } from "../../utils/helpers"
+import { slugify, removeDuplicates } from "../../utils/helpers"
 import Image from "../components/Image"
-
-function removeDuplicates(myArr) {
-  return Array.from(new Set(myArr.map(JSON.stringify))).map(JSON.parse)
-}
 
 const Cart = ({ context }) => {
   const { numberOfItemsInCart, cart, removeFromCart, total } = context
@@ -60,8 +56,8 @@ const Cart = ({ context }) => {
                       <div className="flex items-center">
                         <Link to={slugify(item.name)}>
                           <Image
-                            className="w-32 m-0"
-                            src={item.image}
+                            className="w-32 m-0 item-card"
+                            src={item.image[0].url}
                             alt={item.name}
                           />
                         </Link>

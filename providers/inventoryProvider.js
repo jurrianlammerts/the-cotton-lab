@@ -1,25 +1,36 @@
-import inventory from "./inventory"
+async function getInventory(graphql) {
+  try {
+    const { data } = await graphql(
+      `
+        {
+          products: allStrapiProduct {
+            nodes {
+              id
+              name
+              description
+              price
+              inventory
+              image {
+                url
+              }
+              categories {
+                name
+              }
+            }
+          }
+        }
+      `
+    )
 
-/*
-Inventory items must adhere to the following schema:
+    const {
+      products: { nodes: inventory },
+    } = data
 
-type Product {
-  id: ID!
-  categories: [String]!
-  price: Float!
-  name: String!
-  image: String!
-  description: String!
-  currentInventory: Int!
-  brand: String
-}
-*/
-
-async function getInventory() {
-  return new Promise((resolve, reject) => {
-    // const inventory = API.get(apiUrl)
-    resolve(inventory)
-  })
+    if (!inventory) return null
+    return inventory
+  } catch (err) {
+    console.log("Error: ", err)
+  }
 }
 
 const DENOMINATION = "€"

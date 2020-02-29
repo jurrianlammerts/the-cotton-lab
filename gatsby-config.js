@@ -1,3 +1,7 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+
 module.exports = {
   siteMetadata: {
     title: `STRIJK`,
@@ -9,6 +13,14 @@ module.exports = {
       resolve: `gatsby-plugin-layout`,
       options: {
         component: require.resolve(`./src/layouts/baseLayout.js`),
+      },
+    },
+    {
+      resolve: "gatsby-source-strapi",
+      options: {
+        apiURL: process.env.API_URL,
+        contentTypes: ["product", "category"],
+        queryLimit: 1000,
       },
     },
     `gatsby-plugin-stripe`,

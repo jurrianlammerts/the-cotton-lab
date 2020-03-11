@@ -21,8 +21,6 @@ const Home = ({ data: gqlData }) => {
   const categories = data.slice(0, 2)
   const inventory = inventoryInfo.data.slice(0, 4)
 
-  console.log(inventory)
-
   return (
     <>
       <CartLink />
@@ -54,7 +52,6 @@ const Home = ({ data: gqlData }) => {
         </div>
       </div>
       <div className="my-4 lg:my-8 flex flex-col lg:flex-row justify-between">
-        {console.log(categories[0])}
         <DisplayMedium
           imageSrc={categories[0].image}
           subtitle={`${categories[0].itemCount} items`}

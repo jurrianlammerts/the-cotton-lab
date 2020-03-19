@@ -13,8 +13,6 @@ const Slider = ({ images }) => {
   const handlePrevious = () =>
     index === 0 ? setIndex(length) : setIndex(index - 1)
 
-  console.log(images)
-
   return (
     <div
       className="w-full md:w-1/2 h-112 flex flex-1 bg-light hover:bg-light-200 slider"

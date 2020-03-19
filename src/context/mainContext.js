@@ -86,7 +86,6 @@ class ContextProviderComponent extends React.Component {
       const storageState = window.localStorage.getItem(STORAGE_KEY)
       if (storageState) {
         state = JSON.parse(storageState)
-        console.log("storagestate: ", state)
       }
     }
 

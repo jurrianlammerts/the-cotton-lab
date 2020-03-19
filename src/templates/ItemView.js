@@ -14,13 +14,9 @@ const ItemView = props => {
     context: { addToCart },
   } = props
 
-  // TODO: Check if one or more images
-
   function addItemToCart(item) {
     addToCart(item)
   }
-
-  console.log("image: ", image)
 
   return (
     <>

@@ -21,7 +21,6 @@ const Home = ({ data: gqlData }) => {
     .slice(Math.max(inventoryInfo.data.length - 4, 0))
     .reverse()
 
-  console.log(inventory)
   return (
     <>
       <CartLink />

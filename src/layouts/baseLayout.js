@@ -53,7 +53,7 @@ class Layout extends React.Component {
                       <Link to="/">
                         <img className="w-10 mr-4" alt="Logo" src={logo} />
                       </Link>
-                      <div className="flex flex-wrap mt-2 h-24">
+                      <div className="flex flex-wrap mt-2">
                         {links.map((l, i) => (
                           <Link
                             to={l.link}
@@ -81,11 +81,11 @@ class Layout extends React.Component {
                     <span className="block text-gray-700 pt-4 pb-8 mt-2 text-xs">
                       Copyright © 2020 All rights reserved.
                     </span>
-                    <div className="flex flex-1 justify-end">
+                    {/* <div className="flex flex-1 justify-end">
                       <Link to="/admin">
                         <p className="pt-4 text-xs">Admin</p>
                       </Link>
-                    </div>
+                    </div> */}
                   </div>
                 </footer>
               </div>

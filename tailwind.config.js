@@ -3,7 +3,7 @@ module.exports = {
     extend: {
       screens: {
         'mobile': '600px',
-        'c_large': '1200px',
+        'laptop': '1024px',
         'desktop': '1440px'
       },
       width: {

@@ -61,7 +61,7 @@ class ContextProviderComponent extends React.Component {
     const index = cart.map(e => e.id).indexOf(item.id)
 
     if (index > -1) {
-      const item = cart.splice(index, 1)
+      cart.splice(index, 1)
     }
 
     window.localStorage.setItem(
@@ -86,6 +86,7 @@ class ContextProviderComponent extends React.Component {
       const storageState = window.localStorage.getItem(STORAGE_KEY)
       if (storageState) {
         state = JSON.parse(storageState)
+        console.log("storagestate: ", state)
       }
     }
 

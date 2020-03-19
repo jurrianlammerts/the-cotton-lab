@@ -8,7 +8,7 @@ const Center = ({ price, title, link }) => {
   }
 
   return (
-    <div>
+    <div className="z-10">
       <p className="text-4xl xl:text-5xl font-bold tracking-widest leading-none">
         {title}
       </p>

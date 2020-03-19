@@ -14,13 +14,14 @@ import CartLink from "../components/CartLink"
 import { titleIfy, slugify } from "../../utils/helpers"
 
 const Home = ({ data: gqlData }) => {
-  const {
-    inventoryInfo,
-    categoryInfo: { data },
-  } = gqlData
-  const categories = data.slice(0, 2)
-  const inventory = inventoryInfo.data.slice(0, 4)
+  const { inventoryInfo, categoryInfo } = gqlData
+  const categories = categoryInfo.data.slice(0, 3)
 
+  const inventory = inventoryInfo.data
+    .slice(Math.max(inventoryInfo.data.length - 4, 0))
+    .reverse()
+
+  console.log(inventory)
   return (
     <>
       <CartLink />
@@ -36,13 +37,13 @@ const Home = ({ data: gqlData }) => {
             <Tag year="2020" category="SNEAKERS" />
             <Center
               price="1250"
-              title={inventory[2].name}
-              link={slugify(inventory[2].name)}
+              title={inventory[0].name}
+              link={slugify(inventory[0].name)}
             />
-            <Footer designer="Wilson Smith" />
+            <Footer designer={inventory[0].brand} />
           </div>
           <div className="flex flex-1 justify-center items-center relative">
-            <Showcase imageSrc={inventory[2].image} />
+            <Showcase imageSrc={inventory[0].image} />
             <div
               className="absolute
               w-48 h-48 sm:w-72 sm:h-72 xl:w-88 xl:h-88
@@ -53,16 +54,16 @@ const Home = ({ data: gqlData }) => {
       </div>
       <div className="my-4 lg:my-8 flex flex-col lg:flex-row justify-between">
         <DisplayMedium
-          imageSrc={categories[0].image}
-          subtitle={`${categories[0].itemCount} items`}
-          title={titleIfy(categories[0].name)}
-          link={slugify(categories[0].name)}
-        />
-        <DisplayMedium
           imageSrc={categories[1].image}
           subtitle={`${categories[1].itemCount} items`}
           title={titleIfy(categories[1].name)}
           link={slugify(categories[1].name)}
+        />
+        <DisplayMedium
+          imageSrc={categories[2].image}
+          subtitle={`${categories[2].itemCount} items`}
+          title={titleIfy(categories[2].name)}
+          link={slugify(categories[2].name)}
         />
       </div>
       <div className="pt-10 pb-6 flex flex-col items-center">
@@ -124,6 +125,7 @@ export const pageQuery = graphql`
           url
         }
         name
+        brand
         categories {
           name
         }

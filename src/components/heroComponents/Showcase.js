@@ -6,7 +6,7 @@ const Showcase = ({ imageSrc }) => {
     <div className="z-10">
       <Image
         src={imageSrc[0].url}
-        className="w-136 mb-12"
+        className="w-104 mb-12"
         alt="Showcase item"
       />
     </div>

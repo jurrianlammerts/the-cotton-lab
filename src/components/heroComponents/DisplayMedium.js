@@ -3,6 +3,11 @@ import { Link } from "gatsby"
 import Image from "../Image"
 
 const DisplayMedium = ({ imageSrc, title, subtitle, link }) => {
+  let src
+
+  console.log(imageSrc)
+  if (imageSrc instanceof Array) src = imageSrc[0].url
+  else src = imageSrc.url
   return (
     <div
       className="lg:w-flex-half
@@ -11,7 +16,7 @@ const DisplayMedium = ({ imageSrc, title, subtitle, link }) => {
     >
       <Link to={`/${link}`}>
         <div className="item-card flex flex-column justify-center items-center h-56">
-          <Image src={imageSrc.url} alt={title} className="w-3/5" />
+          <Image src={src} alt={title} className="w-3/5" />
         </div>
         <div className="">
           <p className="text-3xl font-semibold mb-1">{title}</p>

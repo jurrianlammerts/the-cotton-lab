@@ -14,12 +14,13 @@ import CartLink from "../components/CartLink"
 import { titleIfy, slugify } from "../../utils/helpers"
 
 const Home = ({ data: gqlData }) => {
-  const { inventoryInfo, categoryInfo } = gqlData
-  const categories = categoryInfo.data.slice(0, 3)
+  const { categories, products } = gqlData
 
-  const inventory = inventoryInfo.data
-    .slice(Math.max(inventoryInfo.data.length - 4, 0))
-    .reverse()
+  const inventory = products.nodes.slice(Math.max(products.nodes.length - 4, 0))
+
+  const topProduct = products.nodes.filter(item => item.onTop)
+
+  console.log(categories, products)
 
   return (
     <>
@@ -36,13 +37,13 @@ const Home = ({ data: gqlData }) => {
             <Tag year="2020" category="SNEAKERS" />
             <Center
               price="1250"
-              title={inventory[0].name}
-              link={slugify(inventory[0].name)}
+              title={topProduct[0].name}
+              link={slugify(topProduct[0].name)}
             />
-            <Footer designer={inventory[0].brand} />
+            <Footer designer={topProduct[0].brand} />
           </div>
           <div className="flex flex-1 justify-center items-center relative">
-            <Showcase imageSrc={inventory[0].image} />
+            <Showcase imageSrc={topProduct[0].image} />
             <div
               className="absolute
               w-48 h-48 sm:w-72 sm:h-72 xl:w-88 xl:h-88
@@ -53,16 +54,16 @@ const Home = ({ data: gqlData }) => {
       </div>
       <div className="my-4 lg:my-8 flex flex-col lg:flex-row justify-between">
         <DisplayMedium
-          imageSrc={categories[1].image}
-          subtitle={`${categories[1].itemCount} items`}
-          title={titleIfy(categories[1].name)}
-          link={slugify(categories[1].name)}
+          imageSrc={categories.nodes[1].products[0].image}
+          subtitle={`${categories.nodes[1].products.length} items`}
+          title={titleIfy(categories.nodes[1].name)}
+          link={slugify(categories.nodes[1].name)}
         />
         <DisplayMedium
-          imageSrc={categories[2].image}
-          subtitle={`${categories[2].itemCount} items`}
-          title={titleIfy(categories[2].name)}
-          link={slugify(categories[2].name)}
+          imageSrc={categories.nodes[2].products[0].image}
+          subtitle={`${categories.nodes[2].products.length} items`}
+          title={titleIfy(categories.nodes[2].name)}
+          link={slugify(categories.nodes[2].name)}
         />
       </div>
       <div className="pt-10 pb-6 flex flex-col items-center">
@@ -109,27 +110,31 @@ export const pageQuery = graphql`
     navInfo {
       data
     }
-    categoryInfo {
-      data {
+    categories: allStrapiCategory(
+      filter: { products: { elemMatch: { onTop: { eq: false } } } }
+    ) {
+      nodes {
         name
-        image {
-          url
+        products {
+          image {
+            url
+          }
         }
-        itemCount
       }
     }
-    inventoryInfo {
-      data {
+    products: allStrapiProduct {
+      nodes {
+        id
+        description
+        name
+        brand
+        onTop
         image {
           url
         }
-        name
-        brand
         categories {
           name
         }
-        description
-        id
       }
     }
   }

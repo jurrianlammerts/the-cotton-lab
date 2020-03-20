@@ -25,7 +25,7 @@ const Home = ({ data: gqlData }) => {
   return (
     <>
       <CartLink />
-      <SEO title="Home" />
+      <SEO title="Exclusive streetwear" />
       <div className="w-full">
         <div
           className="bg-green-200

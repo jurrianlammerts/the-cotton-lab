@@ -11,7 +11,6 @@ import { SiteContext, ContextProviderComponent } from "../context/mainContext"
 import { titleIfy, slugify } from "../../utils/helpers"
 import { colors } from "../theme"
 
-
 const logo = require("../images/logo.svg")
 
 const activeStyle = {
@@ -51,9 +50,9 @@ class Layout extends React.Component {
                     sm:flex-row"
                     >
                       <Link to="/">
-                        <img className="w-10 mr-4" alt="Logo" src={logo} />
+                        <img className="w-6 mr-4" alt="Logo" src={logo} />
                       </Link>
-                      <div className="flex flex-wrap mt-2">
+                      <div className="flex flex-wrap mt-3">
                         {links.map((l, i) => (
                           <Link
                             to={l.link}

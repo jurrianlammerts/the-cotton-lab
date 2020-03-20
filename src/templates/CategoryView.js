@@ -23,7 +23,7 @@ const CategoryView = props => {
 
           <div>
             <div className="flex flex-1 flex-wrap flex-row">
-              {items.reverse().map((item, index) => {
+              {items.map((item, index) => {
                 return (
                   <ListItem
                     key={index}

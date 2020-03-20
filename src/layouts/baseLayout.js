@@ -45,19 +45,19 @@ class Layout extends React.Component {
                     <div
                       className="
                     w-fw
-                    mobile:px-10 desktop:px-0 px-4 pt-10 pb-6
+                    mobile:px-10 desktop:px-0 px-4 pt-4 pb-6
                     flex  
                     sm:flex-row"
                     >
                       <Link to="/">
-                        <img className="w-6 mr-4" alt="Logo" src={logo} />
+                        <img className="w-6" alt="Logo" src={logo} />
                       </Link>
                       <div className="flex flex-wrap mt-3">
                         {links.map((l, i) => (
                           <Link
                             to={l.link}
                             key={i}
-                            style={{ height: "24px", margin: "0 4px" }}
+                            className="ml-4"
                             activeStyle={activeStyle}
                           >
                             <p

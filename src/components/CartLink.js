@@ -13,7 +13,7 @@ class CartLink extends React.Component {
     } = this.props
     return (
       <div>
-        <div className="fixed top-50 right-20 desktop:right-flexiblemargin z-10">
+        <div className="fixed top-32 right-20 desktop:right-flexiblemargin z-10">
           <div className="flex flex-1 justify-end pr-4 relative">
             <Link to="/cart">
               <FaShoppingCart size="24" />

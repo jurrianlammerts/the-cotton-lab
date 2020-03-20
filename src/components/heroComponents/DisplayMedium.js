@@ -4,8 +4,6 @@ import Image from "../Image"
 
 const DisplayMedium = ({ imageSrc, title, subtitle, link }) => {
   let src
-
-  console.log(imageSrc)
   if (imageSrc instanceof Array) src = imageSrc[0].url
   else src = imageSrc.url
   return (

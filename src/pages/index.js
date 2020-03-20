@@ -20,8 +20,6 @@ const Home = ({ data: gqlData }) => {
 
   const topProduct = products.nodes.filter(item => item.onTop)
 
-  console.log(categories, products)
-
   return (
     <>
       <CartLink />

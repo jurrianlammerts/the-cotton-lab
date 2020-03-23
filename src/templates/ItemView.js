@@ -20,7 +20,7 @@ const ItemView = props => {
 
   return (
     <>
-      <SEO title={name} />
+      <SEO title={name} description={description}  />
       <CartLink />
       <div
         className="py-6 flex flex-1 flex-col

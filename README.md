@@ -1,4 +1,4 @@
-## The CottonLab (Beta)
+## The Cotton Lab (Beta)
 
 Out of the box, the site uses completely static data coming from a provider at `providers/inventoryProvider.js`. You can update this provider to fetch data from any real API by changing the call in the `getInventory` function.
 

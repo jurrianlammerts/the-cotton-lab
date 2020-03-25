@@ -5,7 +5,6 @@ import Image from "./Image"
 import MultipleImage from "./MultipleImage"
 
 const ListItem = ({ link, title, imageSrc, price }) => {
-  console.log(imageSrc)
   return (
     <div
       className="
@@ -18,11 +17,7 @@ const ListItem = ({ link, title, imageSrc, price }) => {
       <Link to={`/${link}`}>
         <div className="h-72 flex justify-center items-center bg-light hover:bg-light-200">
           <div className="item-card flex flex-column justify-center items-center">
-            {/* {imageSrc && imageSrc.length > 1 ? (
-              <MultipleImage src={imageSrc} className="w-3/5" />
-            ) : ( */}
-              <Image alt={title} src={imageSrc[0].url} className="w-3/5" />
-            {/* )} */}
+            <Image alt={title} src={imageSrc[0].url} className="w-3/5" />
           </div>
         </div>
       </Link>

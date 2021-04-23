@@ -1,18 +1,15 @@
-import React from "react"
+import React, { useContext } from "react"
+import { SiteContext } from "../layouts/baseLayout"
 import Button from "../components/Button"
-
-import { SiteContext, ContextProviderComponent } from "../context/mainContext"
-import CartLink from "../components/CartLink"
 import SEO from "../components/seo"
 import Image from "../components/Image"
 import Slider from "../components/Slider"
 
-const ItemView = props => {
-  const item = props.pageContext.content
+const ItemView = ({ pageContext }) => {
+  const { addToCart } = useContext(SiteContext)
+
+  const item = pageContext.content
   const { price, image, name, description } = item
-  const {
-    context: { addToCart },
-  } = props
 
   function addItemToCart(item) {
     addToCart(item)
@@ -20,14 +17,8 @@ const ItemView = props => {
 
   return (
     <>
-      <SEO title={name} description={description}  />
-      <CartLink />
-      <div
-        className="py-6 flex flex-1 flex-col
-      md:flex-row
-      w-full
-      my-0 mx-auto"
-      >
+      <SEO title={name} description={description} />
+      <div className="py-6 flex flex-1 flex-col md:flex-row w-full my-0 mx-auto">
         {image.length <= 1 ? (
           <div className="w-full md:w-1/2 h-112 flex flex-1 bg-light hover:bg-light-200">
             <div className="py-16 p10 flex flex-1 justify-center items-center">
@@ -56,14 +47,4 @@ const ItemView = props => {
   )
 }
 
-function ItemViewWithContext(props) {
-  return (
-    <ContextProviderComponent>
-      <SiteContext.Consumer>
-        {context => <ItemView {...props} context={context} />}
-      </SiteContext.Consumer>
-    </ContextProviderComponent>
-  )
-}
-
-export default ItemViewWithContext
+export default ItemView

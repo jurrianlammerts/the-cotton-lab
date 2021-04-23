@@ -1,16 +1,18 @@
-import React from "react"
-
-import { SiteContext, ContextProviderComponent } from "../context/mainContext"
-import { DENOMINATION } from "../../providers/inventoryProvider"
+import React, { useContext } from "react"
 import { FaTimes, FaLongArrowAltRight } from "react-icons/fa"
 import { Link } from "gatsby"
-import SEO from "../components/seo"
-import CartLink from "../components/CartLink"
+
+import { SiteContext } from "../layouts/baseLayout"
+import { DENOMINATION } from "../../providers/inventoryProvider"
 import { slugify, removeDuplicates } from "../../utils/helpers"
+import SEO from "../components/seo"
 import Image from "../components/Image"
 
-const Cart = ({ context }) => {
-  const { numberOfItemsInCart, cart, removeFromCart, total } = context
+const Cart = () => {
+  const {
+    removeFromCart,
+    context: { numberOfItemsInCart, cart, total },
+  } = useContext(SiteContext)
   const cartEmpty = numberOfItemsInCart === Number(0)
   const counter = {}
 
@@ -32,7 +34,6 @@ const Cart = ({ context }) => {
 
   return (
     <>
-      <CartLink />
       <SEO title="Cart" />
       <div className="flex flex-col items-center pb-10">
         <div
@@ -54,14 +55,14 @@ const Cart = ({ context }) => {
                   return (
                     <div className="border-b py-10" key={`${item.id + index}`}>
                       <div className="flex items-center">
-                        <Link to={slugify(item.name)}>
+                        <Link to={`/${slugify(item.name)}`}>
                           <Image
                             className="w-32 m-0 item-card"
                             src={item.image[0].url}
                             alt={item.name}
                           />
                         </Link>
-                        <Link to={slugify(item.name)}>
+                        <Link to={`/${slugify(item.name)}`}>
                           <p className="m-0 pl-10 text-gray-600 text-sm">
                             {item.name}
                           </p>
@@ -108,14 +109,4 @@ const Cart = ({ context }) => {
   )
 }
 
-function CartWithContext(props) {
-  return (
-    <ContextProviderComponent>
-      <SiteContext.Consumer>
-        {context => <Cart {...props} context={context} />}
-      </SiteContext.Consumer>
-    </ContextProviderComponent>
-  )
-}
-
-export default CartWithContext
+export default Cart

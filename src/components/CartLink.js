@@ -1,41 +1,24 @@
-import React from "react"
-import { SiteContext } from "../context/mainContext"
-import { FaShoppingCart, FaCircle } from "react-icons/fa"
+import React, { useContext } from "react"
+import { SiteContext } from "../layouts/baseLayout"
+import { FaShoppingCart } from "react-icons/fa"
 import { Link } from "gatsby"
 import Circle from "./icons/CircleIcon"
-import { colors } from "../theme"
-const { secondary } = colors
 
-class CartLink extends React.Component {
-  render() {
-    let {
-      context: { numberOfItemsInCart } = { numberOfItemsInCart: 0 },
-    } = this.props
-    return (
-      <div>
-        <div className="fixed top-32 right-20 desktop:right-flexiblemargin z-10">
-          <div className="flex flex-1 justify-end pr-4 relative">
-            <Link to="/cart">
-              <FaShoppingCart size="24" />
-              {numberOfItemsInCart > Number(0) && (
-                <div className="card-bubble">
-                  <Circle text={numberOfItemsInCart} />
-                </div>
-              )}
-            </Link>
-          </div>
-        </div>
-      </div>
-    )
-  }
-}
-
-function CartLinkWithContext(props) {
+const CartLink = () => {
+  const { context } = useContext(SiteContext)
+  const { numberOfItemsInCart } = context
   return (
-    <SiteContext.Consumer>
-      {context => <CartLink {...props} context={context} />}
-    </SiteContext.Consumer>
+    <div className="hidden sm:flex flex-1 justify-end relative pt-2">
+      <Link to="/cart">
+        <FaShoppingCart size="24" />
+        {/* {numberOfItemsInCart > Number(0) && (
+          <div className="card-bubble">
+            <Circle text={numberOfItemsInCart} />
+          </div>
+        )} */}
+      </Link>
+    </div>
   )
 }
 
-export default CartLinkWithContext
+export default CartLink

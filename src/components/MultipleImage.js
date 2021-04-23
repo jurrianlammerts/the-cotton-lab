@@ -14,6 +14,7 @@ const MultipleImage = ({ src, ...props }) => {
         onMouseOut={() => {
           setImageSrc(src[0].url)
         }}
+        alt="multiple-image"
       />
     )
   } else return null

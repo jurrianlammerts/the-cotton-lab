@@ -1,68 +1,72 @@
-import React from "react"
-
-import { titleIfy, slugify } from "../../utils/helpers"
-import { FaShoppingCart, FaCircle } from "react-icons/fa"
+import React, { useState } from "react"
+import { Spiral as Hamburger } from "hamburger-react"
 import { Link } from "gatsby"
+import Logo from "./Logo"
+import CartLink from "./CartLink"
+import { colors } from "../theme"
 
-import { SiteContext, ContextProviderComponent } from "../context/mainContext"
+const Nav = ({ links }) => {
+  const [isOpen, setOpen] = useState(false)
 
-class Nav extends React.Component {
-  render() {
-    let {
-      numberOfItemsInCart,
-      navItems: {
-        navInfo: { data: links },
-      },
-    } = this.props.context
-
-    links = links.map(link => {
-      const newLink = {}
-      newLink.link = slugify(link)
-      newLink.name = titleIfy(link)
-      return newLink
-    })
-    return (
-      <>
-        <div className="flex">
+  const toggleMenu = () => {
+    setOpen(!isOpen)
+  }
+  return (
+    <nav className="max-w-fw mx-auto">
+      <div className="flex align-center justify-between sm:justify-start w-full mobile:px-10 desktop:px-0 px-4 py-6">
+        <Link to="/">
+          <Logo />
+        </Link>
+        <div className="hidden sm:flex flex-row mt-2">
           {links.map((l, i) => (
             <Link
-              to={l.link}
+              to={`/${l.link}`}
               key={i}
-              style={style}
-              activeStyle={{ color: "red" }}
+              className="ml-4"
+              activeStyle={{ color: colors.secondary }}
             >
               <p
                 key={i}
-                className="text-left m-0 text-smaller mr-4 sm:mr-8 font-semibold"
+                className="text-left m-0 text-smaller pr-4 font-semibold sm:pl-2"
               >
                 {l.name}
               </p>
             </Link>
           ))}
         </div>
-        <div className="flex flex-1 justify-end pr-4 relative">
-          <Link to="/cart">
-            <FaShoppingCart />
-          </Link>
-          {numberOfItemsInCart > Number(0) && (
-            <div>
-              <FaCircle />
-            </div>
-          )}
+        <CartLink />
+        <div className="block sm:hidden">
+          <Hamburger toggled={isOpen} toggle={setOpen} size={24} />
         </div>
-      </>
-    )
-  }
-}
-
-function NavWithContext(props) {
-  return (
-    <ContextProviderComponent>
-      <SiteContext.Consumer>
-        {context => <Nav {...props} context={context} />}
-      </SiteContext.Consumer>
-    </ContextProviderComponent>
+      </div>
+      {isOpen && (
+        <div className="flex flex-col">
+          {links.map((l, i) => (
+            <Link
+              to={`/${l.link}`}
+              key={i}
+              className="ml-4"
+              activeStyle={{ color: colors.secondary }}
+            >
+              <p className="text-left m-0 text-smaller pr-4 font-semibold sm:pl-2">
+                {l.name}
+              </p>
+            </Link>
+          ))}
+          <Link
+            key="123"
+            to="/cart"
+            activeStyle={{ color: colors.secondary }}
+            className="ml-4"
+          >
+            <p className="text-left m-0 text-smaller pr-4 font-semibold sm:pl-2">
+              Cart
+            </p>
+          </Link>
+        </div>
+      )}
+    </nav>
   )
 }
 
-export default NavWithContext
+export default Nav

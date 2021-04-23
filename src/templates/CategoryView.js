@@ -2,7 +2,6 @@ import React from "react"
 import ListItem from "../components/ListItem"
 import SEO from "../components/seo"
 import { titleIfy, slugify } from "../../utils/helpers"
-import CartLink from "../components/CartLink"
 
 const CategoryView = props => {
   const {
@@ -14,7 +13,7 @@ const CategoryView = props => {
   return (
     <>
       <SEO title="Shop" />
-      <CartLink />
+
       <div className="flex flex-col items-center">
         <div className="max-w-fw flex flex-col">
           <div className="pt-10 pb-8">

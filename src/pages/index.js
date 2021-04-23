@@ -10,7 +10,6 @@ import {
   DisplaySmall,
   DisplayMedium,
 } from "../components"
-import CartLink from "../components/CartLink"
 import { titleIfy, slugify } from "../../utils/helpers"
 
 const Home = ({ data: gqlData }) => {
@@ -22,17 +21,12 @@ const Home = ({ data: gqlData }) => {
 
   return (
     <>
-      <CartLink />
+      <></>
       <SEO title="Exclusive streetwear" />
       <div className="w-full">
-        <div
-          className="bg-green-200
-        lg:h-hero
-        p-6 pb-10 smpb-6
-        flex lg:flex-row flex-col"
-        >
+        <div className="bg-green-200 lg:h-hero p-6 pb-10 smpb-6 flex lg:flex-row flex-col">
           <div className="pt-4 pl-2 sm:pt-12 sm:pl-12 flex flex-col">
-            <Tag year="2020" category="SNEAKERS" />
+            <Tag year="2021" category="SNEAKERS" />
             <Center
               price="1250"
               title={topProduct[0].name}
@@ -42,15 +36,11 @@ const Home = ({ data: gqlData }) => {
           </div>
           <div className="flex flex-1 justify-center items-center relative">
             <Showcase imageSrc={topProduct[0].image} />
-            <div
-              className="absolute
-              w-48 h-48 sm:w-72 sm:h-72 xl:w-88 xl:h-88
-              bg-white z-0 rounded-full"
-            />
+            <div className="absolute w-48 h-48 sm:w-72 sm:h-72 xl:w-88 xl:h-88 bg-white z-0 rounded-full" />
           </div>
         </div>
       </div>
-      <div className="my-4 lg:my-8 flex flex-col lg:flex-row justify-between">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 my-4">
         <DisplayMedium
           imageSrc={categories.nodes[1].products[0].image}
           subtitle={`${categories.nodes[1].products.length} items`}
@@ -70,7 +60,7 @@ const Home = ({ data: gqlData }) => {
           Find the perfect piece or accessory to finish off your collection.
         </p>
       </div>
-      <div className="my-8 flex flex-col lg:flex-row justify-between">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 my-8">
         <DisplaySmall
           imageSrc={inventory[0].image}
           title={inventory[0].name}

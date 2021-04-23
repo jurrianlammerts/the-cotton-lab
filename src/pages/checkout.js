@@ -50,7 +50,7 @@ const Input = ({ onChange, value, name, placeholder }) => (
   />
 )
 
-const Checkout = ({ numberOfItemsInCart, cart, total, clearCart }) => {
+const Checkout = ({ numberOfItemsInCart, cart = [], total, clearCart }) => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [orderCompleted, setOrderCompleted] = useState(false)
   const [input, setInput] = useState({
@@ -65,7 +65,7 @@ const Checkout = ({ numberOfItemsInCart, cart, total, clearCart }) => {
   const stripe = useStripe()
   const elements = useElements()
 
-  const onChange = e => {
+  const onChange = (e) => {
     setErrorMessage(null)
     setInput({
       ...input,
@@ -73,7 +73,7 @@ const Checkout = ({ numberOfItemsInCart, cart, total, clearCart }) => {
     })
   }
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     const { name, email, street, city, postal_code, state } = input
 
@@ -134,7 +134,7 @@ const Checkout = ({ numberOfItemsInCart, cart, total, clearCart }) => {
 
   // Counts all the products
   !cartEmpty &&
-    cart.forEach(obj => {
+    cart?.forEach((obj) => {
       counter[obj.id] = (counter[obj.id] || 0) + 1
     })
 
@@ -142,7 +142,7 @@ const Checkout = ({ numberOfItemsInCart, cart, total, clearCart }) => {
   const uniqueCart = removeDuplicates(cart)
 
   // Adds the quantity to the product
-  uniqueCart.forEach(obj => {
+  uniqueCart.forEach((obj) => {
     for (let [key, value] of Object.entries(counter)) {
       if (key === obj.id) obj.quantity = value
     }

@@ -11,14 +11,14 @@ import Image from "../components/Image"
 const Cart = () => {
   const {
     removeFromCart,
-    context: { numberOfItemsInCart, cart, total },
+    context: { numberOfItemsInCart, cart = [], total },
   } = useContext(SiteContext)
   const cartEmpty = numberOfItemsInCart === Number(0)
   const counter = {}
 
   // Counts all the products
   !cartEmpty &&
-    cart.forEach(obj => {
+    cart?.forEach((obj) => {
       counter[obj.id] = (counter[obj.id] || 0) + 1
     })
 
@@ -26,7 +26,7 @@ const Cart = () => {
   const uniqueCart = removeDuplicates(cart)
 
   // Adds the quantity to the product
-  uniqueCart.forEach(obj => {
+  uniqueCart.forEach((obj) => {
     for (let [key, value] of Object.entries(counter)) {
       if (key === obj.id) obj.quantity = value
     }
@@ -69,8 +69,9 @@ const Cart = () => {
                         </Link>
                         <div className="flex flex-1 justify-end">
                           <p className="m-0 pl-10 text-gray-900 tracking-tighter font-semibold">
-                            {`${item.quantity}  x  ${DENOMINATION +
-                              item.price}`}
+                            {`${item.quantity}  x  ${
+                              DENOMINATION + item.price
+                            }`}
                           </p>
                         </div>
                         <div

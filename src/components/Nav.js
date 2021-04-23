@@ -40,7 +40,7 @@ const Nav = ({ links }) => {
         </div>
       </div>
       {isOpen && (
-        <div className="flex flex-col">
+        <div className="flex flex-col mb-4">
           {links.map((l, i) => (
             <Link
               to={`/${l.link}`}

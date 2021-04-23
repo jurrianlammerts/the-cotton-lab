@@ -17,7 +17,7 @@ const Home = ({ data: gqlData }) => {
 
   const inventory = products.nodes.slice(Math.max(products.nodes.length - 4, 0))
 
-  const topProduct = products.nodes.filter(item => item.onTop)
+  const topProduct = products.nodes.filter((item) => item.onTop)
 
   return (
     <>
@@ -48,10 +48,14 @@ const Home = ({ data: gqlData }) => {
           link={slugify(categories.nodes[1].name)}
         />
         <DisplayMedium
-          imageSrc={categories.nodes[2].products[0].image}
-          subtitle={`${categories.nodes[2].products.length} items`}
-          title={titleIfy(categories.nodes[2].name)}
-          link={slugify(categories.nodes[2].name)}
+          imageSrc={
+            categories.nodes[categories.nodes.length - 1].products[0].image
+          }
+          subtitle={`${
+            categories.nodes[categories.nodes.length - 1].products.length
+          } items`}
+          title={titleIfy(categories.nodes[categories.nodes.length - 1].name)}
+          link={slugify(categories.nodes[categories.nodes.length - 1].name)}
         />
       </div>
       <div className="pt-10 pb-6 flex flex-col items-center">

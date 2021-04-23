@@ -10,7 +10,7 @@ const DisplayMedium = ({ imageSrc, title, subtitle, link }) => {
     <div className="mb-4 lg:mb-0 bg-light p-8 pb-0 hover:bg-light-200">
       <Link to={`/${link}`}>
         <div className="item-card flex flex-column justify-center items-center h-56">
-          <Image src={src} alt={title} className="w-3/5" />
+          <Image src={src} alt={title} className="w-3/5 lg:w-3/5" />
         </div>
         <div className="">
           <p className="text-3xl font-semibold mb-1">{title}</p>

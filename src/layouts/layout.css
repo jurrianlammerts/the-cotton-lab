@@ -630,9 +630,9 @@ pre tt:after {
   transform: scale(1.1);
 }
 .card-bubble {
-  bottom: 12px;
+  bottom: 20px;
   position: absolute;
-  left: 16px;
+  right: -10px;
 }
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */

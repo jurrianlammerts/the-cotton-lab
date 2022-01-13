@@ -42,7 +42,6 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
-    `gatsby-plugin-offline`,
     `gatsby-plugin-sharp`,
     {
       resolve: `gatsby-transformer-remark`,

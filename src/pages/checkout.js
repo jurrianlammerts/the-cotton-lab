@@ -1,12 +1,12 @@
-import React, { useState } from "react"
-
-import { SiteContext, ContextProviderComponent } from "../context/mainContext"
-import { DENOMINATION } from "../../providers/inventoryProvider"
-import { FaLongArrowAltLeft } from "react-icons/fa"
+import React, { useState, useContext } from "react"
 import { Link } from "gatsby"
+import { FaLongArrowAltLeft } from "react-icons/fa"
+import uuid from "uuid/v4"
+
+import { SiteContext } from "../layouts/baseLayout"
+import { DENOMINATION } from "../../providers/inventoryProvider"
 import { removeDuplicates } from "../../utils/helpers"
 import Image from "../components/Image"
-import uuid from "uuid/v4"
 
 import {
   CardElement,
@@ -21,16 +21,17 @@ import { loadStripe } from "@stripe/stripe-js"
 const stripePromise = loadStripe("pk_test_DvXwcKnVaaZUpWJIbh9cjgZr00IjIAjZAA")
 
 function CheckoutWithContext(props) {
+  const { context } = useContext(SiteContext)
+  const { total, clearCart, numberOfItemsInCart } = context
   return (
-    <ContextProviderComponent>
-      <SiteContext.Consumer>
-        {context => (
-          <Elements stripe={stripePromise}>
-            <Checkout {...props} context={context} />
-          </Elements>
-        )}
-      </SiteContext.Consumer>
-    </ContextProviderComponent>
+    <Elements stripe={stripePromise}>
+      <Checkout
+        {...props}
+        total={total}
+        clearCart={clearCart}
+        numberOfItemsInCar={numberOfItemsInCart}
+      />
+    </Elements>
   )
 }
 
@@ -49,7 +50,7 @@ const Input = ({ onChange, value, name, placeholder }) => (
   />
 )
 
-const Checkout = ({ context }) => {
+const Checkout = ({ numberOfItemsInCart, cart = [], total, clearCart }) => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [orderCompleted, setOrderCompleted] = useState(false)
   const [input, setInput] = useState({
@@ -64,7 +65,7 @@ const Checkout = ({ context }) => {
   const stripe = useStripe()
   const elements = useElements()
 
-  const onChange = e => {
+  const onChange = (e) => {
     setErrorMessage(null)
     setInput({
       ...input,
@@ -72,10 +73,9 @@ const Checkout = ({ context }) => {
     })
   }
 
-  const handleSubmit = async event => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
     const { name, email, street, city, postal_code, state } = input
-    const { total, clearCart } = context
 
     if (!stripe || !elements) {
       // Stripe.js has not loaded yet. Make sure to disable
@@ -120,7 +120,6 @@ const Checkout = ({ context }) => {
     clearCart()
   }
 
-  const { numberOfItemsInCart, cart, total } = context
   const cartEmpty = numberOfItemsInCart === Number(0)
 
   if (orderCompleted) {
@@ -135,7 +134,7 @@ const Checkout = ({ context }) => {
 
   // Counts all the products
   !cartEmpty &&
-    cart.forEach(obj => {
+    cart?.forEach((obj) => {
       counter[obj.id] = (counter[obj.id] || 0) + 1
     })
 
@@ -143,7 +142,7 @@ const Checkout = ({ context }) => {
   const uniqueCart = removeDuplicates(cart)
 
   // Adds the quantity to the product
-  uniqueCart.forEach(obj => {
+  uniqueCart.forEach((obj) => {
     for (let [key, value] of Object.entries(counter)) {
       if (key === obj.id) obj.quantity = value
     }

@@ -1,22 +1,24 @@
-import React from "react"
-
-import { SiteContext, ContextProviderComponent } from "../context/mainContext"
-import { DENOMINATION } from "../../providers/inventoryProvider"
+import React, { useContext } from "react"
 import { FaTimes, FaLongArrowAltRight } from "react-icons/fa"
 import { Link } from "gatsby"
-import SEO from "../components/seo"
-import CartLink from "../components/CartLink"
+
+import { SiteContext } from "../layouts/baseLayout"
+import { DENOMINATION } from "../../providers/inventoryProvider"
 import { slugify, removeDuplicates } from "../../utils/helpers"
+import SEO from "../components/seo"
 import Image from "../components/Image"
 
-const Cart = ({ context }) => {
-  const { numberOfItemsInCart, cart, removeFromCart, total } = context
+const Cart = () => {
+  const {
+    removeFromCart,
+    context: { numberOfItemsInCart, cart = [], total },
+  } = useContext(SiteContext)
   const cartEmpty = numberOfItemsInCart === Number(0)
   const counter = {}
 
   // Counts all the products
   !cartEmpty &&
-    cart.forEach(obj => {
+    cart?.forEach((obj) => {
       counter[obj.id] = (counter[obj.id] || 0) + 1
     })
 
@@ -24,7 +26,7 @@ const Cart = ({ context }) => {
   const uniqueCart = removeDuplicates(cart)
 
   // Adds the quantity to the product
-  uniqueCart.forEach(obj => {
+  uniqueCart.forEach((obj) => {
     for (let [key, value] of Object.entries(counter)) {
       if (key === obj.id) obj.quantity = value
     }
@@ -32,7 +34,6 @@ const Cart = ({ context }) => {
 
   return (
     <>
-      <CartLink />
       <SEO title="Cart" />
       <div className="flex flex-col items-center pb-10">
         <div
@@ -54,22 +55,23 @@ const Cart = ({ context }) => {
                   return (
                     <div className="border-b py-10" key={`${item.id + index}`}>
                       <div className="flex items-center">
-                        <Link to={slugify(item.name)}>
+                        <Link to={`/${slugify(item.name)}`}>
                           <Image
                             className="w-32 m-0 item-card"
                             src={item.image[0].url}
                             alt={item.name}
                           />
                         </Link>
-                        <Link to={slugify(item.name)}>
+                        <Link to={`/${slugify(item.name)}`}>
                           <p className="m-0 pl-10 text-gray-600 text-sm">
                             {item.name}
                           </p>
                         </Link>
                         <div className="flex flex-1 justify-end">
                           <p className="m-0 pl-10 text-gray-900 tracking-tighter font-semibold">
-                            {`${item.quantity}  x  ${DENOMINATION +
-                              item.price}`}
+                            {`${item.quantity}  x  ${
+                              DENOMINATION + item.price
+                            }`}
                           </p>
                         </div>
                         <div
@@ -108,14 +110,4 @@ const Cart = ({ context }) => {
   )
 }
 
-function CartWithContext(props) {
-  return (
-    <ContextProviderComponent>
-      <SiteContext.Consumer>
-        {context => <Cart {...props} context={context} />}
-      </SiteContext.Consumer>
-    </ContextProviderComponent>
-  )
-}
-
-export default CartWithContext
+export default Cart

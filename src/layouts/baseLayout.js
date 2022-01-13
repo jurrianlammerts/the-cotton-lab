@@ -1,99 +1,122 @@
-/**
- * Layout component that queries for data
- * with Gatsby's useStaticQuery component
- *
- * See: https://www.gatsbyjs.org/docs/use-static-query/
- */
-
-import React from "react"
+import React, { useContext, useState, useEffect } from "react"
+import { useStaticQuery, graphql } from "gatsby"
 import { Link } from "gatsby"
-import { SiteContext, ContextProviderComponent } from "../context/mainContext"
-import { titleIfy, slugify } from "../../utils/helpers"
-import { colors } from "../theme"
+import Nav from "../components/Nav"
+import { titleIfy, slugify, calculateTotal } from "../../utils/helpers"
 
-const logo = require("../images/logo.svg")
+const STORAGE_KEY = "supersecretkey"
 
-const activeStyle = {
-  color: "#00baa6",
+export const initialState = {
+  cart: [],
+  numberOfItemsInCart: 0,
+  total: 0,
 }
 
-class Layout extends React.Component {
-  render() {
-    const { children } = this.props
+const addToCart = item => {
+  const storageState = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
+  let { cart } = storageState
 
-    return (
-      <ContextProviderComponent>
-        <SiteContext.Consumer>
-          {context => {
-            let {
-              navItems: {
-                navInfo: { data: links },
-              },
-            } = context
+  cart.push(item)
 
-            links = links.map(link => {
-              const newLink = {}
-              newLink.link = slugify(link)
-              newLink.name = titleIfy(link)
-              return newLink
-            })
+window.localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({
+      cart,
+      numberOfItemsInCart: cart.length,
+      total: calculateTotal(cart),
+    })
+  )
+}
 
-            return (
-              <div className="min-h-screen">
-                <nav>
-                  <div className="flex justify-center">
-                    <div
-                      className="
-                    w-fw
-                    mobile:px-10 desktop:px-0 px-4 pt-4 pb-6
-                    flex  
-                    sm:flex-row"
-                    >
-                      <Link to="/">
-                        <img className="w-6" alt="Logo" src={logo} />
-                      </Link>
-                      <div className="flex flex-wrap mt-3">
-                        {links.map((l, i) => (
-                          <Link
-                            to={l.link}
-                            key={i}
-                            className="ml-4"
-                            activeStyle={activeStyle}
-                          >
-                            <p
-                              key={i}
-                              className="text-left m-0 text-smaller pr-4 font-semibold sm:pl-2"
-                            >
-                              {l.name}
-                            </p>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </nav>
-                <div className="mobile:px-10 px-4 pb-10 flex justify-center">
-                  <main className="w-fw">{children}</main>
-                </div>
-                <footer className="flex justify-center">
-                  <div className="flex w-fw px-8 desktop:px-0 border-solid border-t border-gray-300 items-center">
-                    <span className="block text-gray-700 pt-4 pb-8 mt-2 text-xs">
-                      Copyright © 2020 All rights reserved.
-                    </span>
-                    {/* <div className="flex flex-1 justify-end">
-                      <Link to="/admin">
-                        <p className="pt-4 text-xs">Admin</p>
-                      </Link>
-                    </div> */}
-                  </div>
-                </footer>
-              </div>
-            )
-          }}
-        </SiteContext.Consumer>
-      </ContextProviderComponent>
-    )
+const removeFromCart = item => {
+  const storageState = JSON.parse(window.localStorage.getItem(STORAGE_KEY))
+  let { cart } = storageState
+
+  const index = cart.map(e => e.id).indexOf(item.id)
+
+  if (index > -1) {
+    cart.splice(index, 1)
   }
+
+  window.localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify({
+      cart,
+      numberOfItemsInCart: cart.length,
+      total: calculateTotal(cart),
+    })
+  )
+}
+
+const clearCart = () => {
+  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(initialState))
+}
+
+export const SiteContext = React.createContext({
+  initialState,
+  addToCart,
+  removeFromCart,
+  clearCart,
+})
+
+const Layout = ({ children }) => {
+  const data = useStaticQuery(graphql`
+    query {
+      navInfo {
+        data
+      }
+    }
+  `)
+
+  let {
+    navInfo: { data: links },
+  } = data
+
+  links = links.map(link => {
+    const newLink = {}
+    newLink.link = slugify(link)
+    newLink.name = titleIfy(link)
+    return newLink
+  })
+
+  const [context, setContext] = useState(initialState)
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storageState = window.localStorage.getItem(STORAGE_KEY)
+      const storedContext = JSON.parse(storageState)
+      if (!storageState) {
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(initialState))
+      } else {
+        setContext({
+          ...context,
+          cart: storedContext.cart,
+          numberOfItemsInCart: storedContext.cart.length,
+          total: calculateTotal(storedContext.cart),
+        })
+      }
+    }
+  }, [])
+
+  return (
+    <SiteContext.Provider
+      value={{ context, setContext, addToCart, removeFromCart, clearCart }}
+    >
+      <div className="min-h-screen">
+        <Nav links={links} />
+        <div className="mobile:px-10 px-4 pb-10 flex justify-center">
+          <main className="w-fw">{children}</main>
+        </div>
+        <footer className="flex justify-center">
+          <div className="flex w-fw px-8 desktop:px-0 border-solid border-t border-gray-300 items-center">
+            <span className="block text-gray-700 pt-4 pb-8 mt-2 text-xs">
+              Copyright © 2021 All rights reserved.
+            </span>
+          </div>
+        </footer>
+      </div>
+    </SiteContext.Provider>
+  )
 }
 
 export default Layout

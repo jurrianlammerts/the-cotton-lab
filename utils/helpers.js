@@ -38,4 +38,12 @@ function removeDuplicates(myArr) {
   return Array.from(new Set(myArr.map(JSON.stringify))).map(JSON.parse)
 }
 
-export { slugify, titleIfy, getTrimmedString, removeDuplicates }
+function calculateTotal(cart) {
+  const total = cart.reduce((acc, next) => {
+    acc = acc + JSON.parse(next.price)
+    return acc
+  }, 0)
+  return total
+}
+
+export { slugify, titleIfy, getTrimmedString, removeDuplicates, calculateTotal }

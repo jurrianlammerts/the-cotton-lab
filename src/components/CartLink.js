@@ -1,6 +1,6 @@
 import React from "react"
 import { SiteContext } from "../context/mainContext"
-import { FaShoppingCart, FaCircle } from "react-icons/fa"
+import { FaShoppingCart } from "react-icons/fa"
 import { Link } from "gatsby"
 import Circle from "./icons/CircleIcon"
 import { colors } from "../theme"

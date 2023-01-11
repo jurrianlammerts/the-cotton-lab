@@ -24,7 +24,7 @@
     "gatsby-remark-lazy-load": "^1.0.2",
     "gatsby-source-filesystem": "^3.3.0",
     "gatsby-source-strapi": "0.0.12",
-    "gatsby-transformer-remark": "^4.0.0",
+    "gatsby-transformer-remark": "^5.25.1",
     "graphql": "^15.5.0",
     "hamburger-react": "^2.4.0",
     "path": "^0.12.7",
